@@ -1,0 +1,37 @@
+{
+  "name": "open-rest-helper-params",
+  "version": "0.2.0",
+  "description": "Controller helper params for open-rest or restify, Used to get instance from Model",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm install && ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/open-node/open-rest-helper-params.git"
+  },
+  "keywords": [
+    "restapi",
+    "controller",
+    "helper",
+    "assistant",
+    "restify",
+    "open-rest"
+  ],
+  "author": "Redstone Zhao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/open-node/open-rest-helper-params/issues"
+  },
+  "homepage": "https://github.com/open-node/open-rest-helper-params#readme",
+  "dependencies": {
+    "func-delegate": "^0.2.2",
+    "restify": "^4.1.1",
+    "lodash": "^4.15.0"
+  },
+  "devDependencies": {
+    "codecov": "^1.0.1",
+    "istanbul": "^0.4.4",
+    "mocha": "^3.0.2"
+  }
+}
