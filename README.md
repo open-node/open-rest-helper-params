@@ -1,6 +1,6 @@
 # open-rest-helper-params
 
-open-rest 的 helper 插件，用来对某些值做断言
+open-rest 的 helper 插件，用来对 req.params 进行操作处理
 
 [![Build status](https://api.travis-ci.org/open-node/open-rest-helper-params.svg?branch=master)](https://travis-ci.org/open-node/open-rest-helper-params)
 [![codecov](https://codecov.io/gh/open-node/open-rest-helper-params/branch/master/graph/badge.svg)](https://codecov.io/gh/open-node/open-rest-helper-params)
