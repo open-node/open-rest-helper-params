@@ -119,9 +119,11 @@ var assignSchemas = [{
   message: 'Fixed value or path of req object'
 }];
 
-module.exports = {
-  omit: delegate(omit, omitSchemas),
-  map: delegate(map, mapSchemas),
-  required: delegate(required, requiredSchemas),
-  assign: delegate(assign, assignSchemas)
+module.exports = function(rest) {
+  return rest.helper.params = {
+    omit: delegate(omit, omitSchemas),
+    map: delegate(map, mapSchemas),
+    required: delegate(required, requiredSchemas),
+    assign: delegate(assign, assignSchemas)
+  };
 };

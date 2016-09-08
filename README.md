@@ -11,6 +11,12 @@ open-rest 的 helper 插件，用来对 req.params 进行操作处理
 npm instsall open-rest-helper-params --save
 ```
 
+```js
+var rest = require('open-rest');
+var params = require('open-rest-helper-params')(rest);
+
+// params Equivalent to rest.helper.params
+
 ## params.omit
 从 req.params 上去掉一些参数
 ```js

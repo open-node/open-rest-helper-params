@@ -1,5 +1,6 @@
 var assert      = require('assert')
-  , helper      = require('../');
+  , rest        = require('open-rest')
+  , helper      = require('../')(rest);
 
 describe("open-rest-helper-params", function() {
 
