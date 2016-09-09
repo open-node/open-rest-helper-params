@@ -1,6 +1,6 @@
 {
   "name": "open-rest-helper-params",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Controller helper params for open-rest or restify, Used to get instance from Model",
   "main": "index.js",
   "scripts": {
@@ -26,9 +26,9 @@
   "homepage": "https://github.com/open-node/open-rest-helper-params#readme",
   "dependencies": {
     "func-delegate": "^0.2.2",
-    "lodash": "^4.15.0",
-    "open-rest": "^6.5.6",
-    "restify": "^4.1.1"
+    "lodash": "*",
+    "open-rest": "*",
+    "restify": "*"
   },
   "devDependencies": {
     "codecov": "^1.0.1",
