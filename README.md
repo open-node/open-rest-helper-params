@@ -5,6 +5,10 @@ open-rest 的 helper 插件，用来对 req.params 进行操作处理
 [![Build status](https://api.travis-ci.org/open-node/open-rest-helper-params.svg?branch=master)](https://travis-ci.org/open-node/open-rest-helper-params)
 [![codecov](https://codecov.io/gh/open-node/open-rest-helper-params/branch/master/graph/badge.svg)](https://codecov.io/gh/open-node/open-rest-helper-params)
 
+
+# Node version
+<pre> >= 6 </pre>
+
 # Usage
 
 ```bash
@@ -12,16 +16,14 @@ npm instsall open-rest-helper-params --save
 ```
 
 ```js
-var rest = require('open-rest');
-var params = require('open-rest-helper-params')(rest);
+const rest = require('open-rest');
+const params = require('open-rest-helper-params')(rest);
 
 // params Equivalent to rest.helper.params
 
 ## params.omit
 从 req.params 上去掉一些参数
 ```js
-var params = require('open-rest-helper-params');
-
 // keys Array 要从req.params 去掉的参数的名称
 params.omit(keys);
 
@@ -39,8 +41,6 @@ params
 判断某些必须的参数是否存在
 
 ```js
-var params = require('open-rest-helper-params');
-
 // keys Array 要判断的参数名称
 // error 如果不想等报的错误，Error类型, 可选
 
@@ -61,8 +61,6 @@ params
 根据字典将 req.params 的参数名称做个映射
 
 ```js
-var params = require('open-rest-helper-params');
-
 // dict Object {key(String) => value(String)}
 
 params.map({email: 'username', pwd: 'password'});
@@ -80,8 +78,6 @@ params
 给指定的 req.params 某个key赋值，可以是静态的值，也可以是动态的值
 
 ```js
-var params = require('open-rest-helper-params');
-
 // keyPath 从 req.params 上的路径，例如: 'id', 'user.name', 分别代表 req.params.id, req.params.user.name
 // obj 要赋的值
 //    1. {path: 'params.id'} 代表值从 req.params.id 获取

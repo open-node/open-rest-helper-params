@@ -1,132 +1,120 @@
-var assert      = require('assert')
-  , rest        = require('open-rest')
-  , helper      = require('../')(rest);
+const assert = require('assert');
+const rest = require('open-rest');
+const helper = require('../')(rest);
 
-describe("open-rest-helper-params", function() {
-
-  describe("omit", function() {
-
-    it("keys type error", function(done) {
-      assert.throws(function() {
+describe('open-rest-helper-params', () => {
+  describe('omit', () => {
+    it('keys type error', (done) => {
+      assert.throws(() => {
         helper.omit({});
-      }, function(err) {
-        return err instanceof Error && err.message === 'Keys is an String|Array.'
-      });
+      }, (err) => err instanceof Error && err.message === 'Keys is an String|Array.');
       done();
     });
 
-    it("keys item error", function(done) {
-      assert.throws(function() {
+    it('keys item error', (done) => {
+      assert.throws(() => {
         helper.omit([null, []]);
-      }, function(err) {
-        return err instanceof Error && err.message === 'Every item in keys must be a string.';
-      });
+      }, (err) => err instanceof Error && err.message === 'Every item in keys must be a string.');
       done();
     });
 
-    it("omit 1", function(done) {
-      var omit = helper.omit(['age']);
-      var req = {
+    it('omit 1', (done) => {
+      const omit = helper.omit(['age']);
+      const req = {
         params: {
           name: 'Redstone',
           age: 36,
-          edu: 'College'
-        }
+          edu: 'College',
+        },
       };
-      var res = {};
-      omit(req, res, function(error) {
+      const res = {};
+      omit(req, res, (error) => {
         assert.equal(null, error);
-        assert.deepEqual({name: 'Redstone', edu: 'College'}, req.params);
+        assert.deepEqual({ name: 'Redstone', edu: 'College' }, req.params);
         done();
       });
     });
 
-    it("omit 2", function(done) {
-      var omit = helper.omit(['age', 'edu']);
-      var req = {
+    it('omit 2', (done) => {
+      const omit = helper.omit(['age', 'edu']);
+      const req = {
         params: {
           name: 'Redstone',
           age: 36,
-          edu: 'College'
-        }
+          edu: 'College',
+        },
       };
-      var res = {};
-      omit(req, res, function(error) {
+      const res = {};
+      omit(req, res, (error) => {
         assert.equal(null, error);
-        assert.deepEqual({name: 'Redstone'}, req.params);
+        assert.deepEqual({ name: 'Redstone' }, req.params);
         done();
       });
     });
 
-    it("omit params undefined", function(done) {
-      var omit = helper.omit(['age', 'edu']);
-      var req = {};
-      var res = {};
-      omit(req, res, function(error) {
+    it('omit params undefined', (done) => {
+      const omit = helper.omit(['age', 'edu']);
+      const req = {};
+      const res = {};
+      omit(req, res, (error) => {
         assert.equal(null, error);
         assert.equal(undefined, req.params);
         done();
       });
     });
-
   });
 
-  describe("required", function() {
-
-    it("keys type error", function(done) {
-      assert.throws(function() {
+  describe('required', () => {
+    it('keys type error', (done) => {
+      assert.throws(() => {
         helper.required({});
-      }, function(err) {
-        return err instanceof Error && err.message === 'Keys is an String|Array.'
-      });
+      }, (err) => err instanceof Error && err.message === 'Keys is an String|Array.');
       done();
     });
 
-    it("keys item error", function(done) {
-      assert.throws(function() {
+    it('keys item error', (done) => {
+      assert.throws(() => {
         helper.required([null, []]);
-      }, function(err) {
-        return err instanceof Error && err.message === 'Every item in keys must be a string.';
-      });
+      }, (err) => err instanceof Error && err.message === 'Every item in keys must be a string.');
       done();
     });
 
-    it("error type error", function(done) {
-      assert.throws(function() {
+    it('error type error', (done) => {
+      assert.throws(() => {
         helper.required(['username', 'password'], {});
-      }, function(err) {
-        return err instanceof Error && err.message === 'The error is called next when params missed.'
-      });
+      }, (err) => (
+        err instanceof Error && err.message === 'The error is called next when params missed.'
+      ));
       done();
     });
 
-    it("error is null, check pass", function(done) {
-      var required = helper.required(['age']);
-      var req = {
+    it('error is null, check pass', (done) => {
+      const required = helper.required(['age']);
+      const req = {
         params: {
           name: 'Redstone',
           age: 36,
-          edu: 'College'
-        }
+          edu: 'College',
+        },
       };
-      var res = {};
-      required(req, res, function(error) {
+      const res = {};
+      required(req, res, (error) => {
         assert.equal(null, error);
         done();
       });
     });
 
-    it("error is null, check dont pass", function(done) {
-      var required = helper.required(['income']);
-      var req = {
+    it('error is null, check dont pass', (done) => {
+      const required = helper.required(['income']);
+      const req = {
         params: {
           name: 'Redstone',
           age: 36,
-          edu: 'College'
-        }
+          edu: 'College',
+        },
       };
-      var res = {};
-      required(req, res, function(error) {
+      const res = {};
+      required(req, res, (error) => {
         assert.ok(error instanceof Error);
         assert.equal('Missing required params: income', error.message);
         assert.equal(409, error.statusCode);
@@ -134,143 +122,133 @@ describe("open-rest-helper-params", function() {
       });
     });
 
-    it("error isnt null, check pass", function(done) {
-      var required = helper.required(['age'], Error('Hello world'));
-      var req = {
+    it('error isnt null, check pass', (done) => {
+      const required = helper.required(['age'], Error('Hello world'));
+      const req = {
         params: {
           name: 'Redstone',
           age: 36,
-          edu: 'College'
-        }
+          edu: 'College',
+        },
       };
-      var res = {};
-      required(req, res, function(error) {
+      const res = {};
+      required(req, res, (error) => {
         assert.equal(null, error);
         done();
       });
     });
 
-    it("error isnt null, check dont pass", function(done) {
-      var required = helper.required(['income'], Error('Hello world'));
-      var req = {
+    it('error isnt null, check dont pass', (done) => {
+      const required = helper.required(['income'], Error('Hello world'));
+      const req = {
         params: {
           name: 'Redstone',
           age: 36,
-          edu: 'College'
-        }
+          edu: 'College',
+        },
       };
-      var res = {};
-      required(req, res, function(error) {
+      const res = {};
+      required(req, res, (error) => {
         assert.ok(error instanceof Error);
         assert.equal('Hello world', error.message);
         done();
       });
     });
-
   });
 
-  describe("map", function() {
-
-    it("dict type error", function(done) {
-      assert.throws(function() {
+  describe('map', () => {
+    it('dict type error', (done) => {
+      assert.throws(() => {
         helper.map('hello world');
-      }, function(err) {
-        return err instanceof Error && err.message === 'Dict is an object, like this key => value, value is string.'
+      }, (err) => {
+        const msg = 'Dict is an object, like this key => value, value is string.';
+        return err instanceof Error && err.message === msg;
       });
       done();
     });
 
-    it("dict type error, include non-string", function(done) {
-      assert.throws(function() {
-        helper.map({key: ['hello world']});
-      }, function(err) {
-        return err instanceof Error && err.message === 'Map dict value must be a string.';
-      });
+    it('dict type error, include non-string', (done) => {
+      assert.throws(() => {
+        helper.map({ key: ['hello world'] });
+      }, (err) => err instanceof Error && err.message === 'Map dict value must be a string.');
       done();
     });
 
-    it("params map", function(done) {
-      var map = helper.map({name: 'username'});
-      var req = {
+    it('params map', (done) => {
+      const map = helper.map({ name: 'username' });
+      const req = {
         params: {
           name: 'Redstone',
           age: 36,
-          edu: 'College'
-        }
+          edu: 'College',
+        },
       };
-      var res = {};
-      map(req, res, function(error) {
+      const res = {};
+      map(req, res, (error) => {
         assert.equal(null, error);
         assert.deepEqual({
           name: 'Redstone',
           username: 'Redstone',
           age: 36,
-          edu: 'College'
+          edu: 'College',
         }, req.params);
         done();
       });
     });
-
   });
 
-  describe("assign", function() {
-
-    it("keyPath type error", function(done) {
-      assert.throws(function() {
+  describe('assign', () => {
+    it('keyPath type error', (done) => {
+      assert.throws(() => {
         helper.assign(['hello world']);
-      }, function(err) {
-        return err instanceof Error && err.message === 'Gets the value at path of object.'
-      });
+      }, (err) => err instanceof Error && err.message === 'Gets the value at path of object.');
       done();
     });
 
-    it("obj type error", function(done) {
-      assert.throws(function() {
+    it('obj type error', (done) => {
+      assert.throws(() => {
         helper.assign('hooks.user.id', 'hello world');
-      }, function(err) {
-        return err instanceof Error && err.message === 'Fixed value or path of req object'
+      }, (err) => err instanceof Error && err.message === 'Fixed value or path of req object');
+      done();
+    });
+
+    it('obj validate error', (done) => {
+      assert.throws(() => {
+        helper.assign('hooks.user.id', { name: 'Stone' });
+      }, (err) => {
+        const msg = 'Argument obj contains at least fixed, path one of them.';
+        return err instanceof Error && err.message === msg;
       });
       done();
     });
 
-    it("obj validate error", function(done) {
-      assert.throws(function() {
-        helper.assign('hooks.user.id', {name: 'Stone'});
-      }, function(err) {
-        return err instanceof Error && err.message === 'Argument obj contains at least fixed, path one of them.'
-      });
-      done();
-    });
-
-    it("assign fixed value", function(done) {
-      var assign = helper.assign('user.id', {fixed: 100});
-      var req = {
-        params: {}
+    it('assign fixed value', (done) => {
+      const assign = helper.assign('user.id', { fixed: 100 });
+      const req = {
+        params: {},
       };
-      var res = {};
-      assign(req, res, function(error) {
+      const res = {};
+      assign(req, res, (error) => {
         assert.equal(null, error);
         assert.equal(100, req.params.user.id);
         done();
       });
     });
 
-    it("assign path value", function(done) {
-      var assign = helper.assign('user.id', {path: 'user.id'});
-      var req = {
+    it('assign path value', (done) => {
+      const assign = helper.assign('user.id', { path: 'user.id' });
+      const req = {
         params: {},
         user: {
-          id: 100
-        }
+          id: 100,
+        },
       };
-      var res = {};
-      assign(req, res, function(error) {
+      const res = {};
+      assign(req, res, (error) => {
         assert.equal(null, error);
         assert.equal(100, req.params.user.id);
         done();
       });
     });
-
   });
-
 });

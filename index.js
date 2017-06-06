@@ -1,129 +1,128 @@
-var delegate  = require('func-delegate')
-  , _         = require('lodash');
+const delegate = require('func-delegate');
+const _ = require('lodash');
 
-module.exports = function(rest) {
-
+module.exports = (rest) => {
   // 去掉参数中的某些key
-  var omit = function(keys) {
-    return function(req, res, next) {
-      if (req.params == undefined) return next();
+  const omit = (keys) => (
+    (req, res, next) => {
+      if (req.params == null) return next();
       req.params = _.omit(req.params, keys);
-      next()
-    };
-  };
+      return next();
+    }
+  );
 
   // 检测必要参数
-  var required = function(keys, error) {
-    return function(req, res, next) {
-      var missings = _.filter(keys, function(key) {
-        return !req.params.hasOwnProperty(key);
-      });
+  const required = (keys, error) => (
+    (req, res, next) => {
+      const missings = _.filter(keys, (key) => !_.has(req.params, key));
       if (missings.length === 0) return next();
       if (error) return next(error);
-      next(rest.errors.missingParameter('Missing required params: ' + missings));
-    };
-  };
+      return next(rest.errors.missingParameter(`Missing required params: ${missings}`));
+    }
+  );
 
   // 将 params 的可以做一个简单的映射
-  var map = function(dict) {
-    return function(req, res, next) {
-      _.each(dict, function(v, k) {
-        req.params[v] = req.params[k]
+  const map = (dict) => (
+    (req, res, next) => {
+      _.each(dict, (v, k) => {
+        req.params[v] = req.params[k];
       });
       next();
-    };
-  };
+    }
+  );
 
   // 给params赋值
-  var assign = function(keyPath, obj) {
-    return function(req, res, next) {
-      var value = obj.fixed ? obj.fixed : _.get(req, obj.path);
+  const assign = (keyPath, obj) => (
+    (req, res, next) => {
+      const value = obj.fixed ? obj.fixed : _.get(req, obj.path);
       _.set(req.params, keyPath, value);
-      next()
-    };
-  };
+      next();
+    }
+  );
 
-  var omitSchemas = [{
+  const omitSchemas = [{
     name: 'keys',
     type: Array,
     allowNull: false,
     validate: {
-      check: function(keys) {
-        _.each(keys, function(v) {
+      check(keys) {
+        _.each(keys, (v) => {
           if (!_.isString(v)) {
             throw Error('Every item in keys must be a string.');
           }
         });
         return true;
-      }
+      },
     },
-    message: 'Keys is an String|Array.'
+    message: 'Keys is an String|Array.',
   }];
 
-  var mapSchemas = [{
+  const mapSchemas = [{
     name: 'dict',
     type: Object,
     allowNull: false,
     validate: {
-      check: function(dict) {
-        _.each(dict, function(v, k) {
+      check(dict) {
+        _.each(dict, (v) => {
           if (!_.isString(v)) {
             throw Error('Map dict value must be a string.');
           }
         });
         return true;
-      }
+      },
     },
-    message: 'Dict is an object, like this key => value, value is string.'
+    message: 'Dict is an object, like this key => value, value is string.',
   }];
 
-  var requiredSchemas = [{
+  const requiredSchemas = [{
     name: 'keys',
     type: Array,
     allowNull: false,
     validate: {
-      check: function(keys) {
-        _.each(keys, function(v) {
+      check(keys) {
+        _.each(keys, (v) => {
           if (!_.isString(v)) {
             throw Error('Every item in keys must be a string.');
           }
         });
         return true;
-      }
+      },
     },
-    message: 'Keys is an String|Array.'
+    message: 'Keys is an String|Array.',
   }, {
     name: 'error',
     type: Error,
     allowNull: true,
-    message: 'The error is called next when params missed.'
+    message: 'The error is called next when params missed.',
   }];
 
-  var assignSchemas = [{
+  const assignSchemas = [{
     name: 'keyPath',
     type: String,
     allowNull: false,
     defaultValue: 'params.id',
-    message: 'Gets the value at path of object.'
+    message: 'Gets the value at path of object.',
   }, {
     name: 'obj',
     type: Object,
     allowNull: false,
     validate: {
-      check: function(v) {
-        if (!v.hasOwnProperty('fixed') && !v.hasOwnProperty('path')) {
-          throw Error('Argument obj contains at least fixed, path one of them.')
+      check(v) {
+        if (!_.has(v, 'fixed') && !_.has(v, 'path')) {
+          throw Error('Argument obj contains at least fixed, path one of them.');
         }
         return true;
-      }
+      },
     },
-    message: 'Fixed value or path of req object'
+    message: 'Fixed value or path of req object',
   }];
 
-  return rest.helper.params = {
+  rest.helper.params = {
     omit: delegate(omit, omitSchemas),
     map: delegate(map, mapSchemas),
     required: delegate(required, requiredSchemas),
-    assign: delegate(assign, assignSchemas)
+    assign: delegate(assign, assignSchemas),
   };
+
+  return rest.helper.params;
 };
