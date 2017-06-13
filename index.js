@@ -14,7 +14,7 @@ module.exports = (rest) => {
   // 检测必要参数
   const required = (keys, error) => (
     (req, res, next) => {
-      const missings = _.filter(keys, (key) => !_.has(req.params, key));
+      const missings = _.filter(keys, (key) => !_.get(req.params, key));
       if (missings.length === 0) return next();
       if (error) return next(error);
       return next(rest.errors.missingParameter(`Missing required params: ${missings}`));
