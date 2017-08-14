@@ -156,6 +156,63 @@ describe('open-rest-helper-params', () => {
         done();
       });
     });
+
+    it('error is null, check pass', (done) => {
+      const required = helper.required(['id', 'user']);
+      const req = {
+        params: {
+          id: 1,
+          user: {
+            id: 1,
+            name: 'mage3k',
+            age: 26,
+          },
+        },
+      };
+      const res = {};
+      required(req, res, (error) => {
+        assert.equal(null, error);
+        done();
+      });
+    });
+
+    it('error is null, check pass', (done) => {
+      const required = helper.required(['id', 'user.id']);
+      const req = {
+        params: {
+          id: 1,
+          user: {
+            id: 1,
+            name: 'mage3k',
+            age: 26,
+          },
+        },
+      };
+      const res = {};
+      required(req, res, (error) => {
+        assert.equal(null, error);
+        done();
+      });
+    });
+
+    it('error isnt null, check dont pass', (done) => {
+      const required = helper.required(['income', 'user.id']);
+      const req = {
+        params: {
+          id: 1,
+          user: {
+            id: 1,
+            name: 'mage3k',
+            age: 26,
+          },
+        },
+      };
+      const res = {};
+      required(req, res, (error) => {
+        assert.equal('Missing required params: income', error.message);
+        done();
+      });
+    });
   });
 
   describe('map', () => {
