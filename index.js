@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 module.exports = (rest) => {
   // 去掉参数中的某些key
-  const omit = (keys) => (
+  const omit = keys => (
     (req, res, next) => {
       if (req.params == null) return next();
       req.params = _.omit(req.params, keys);
@@ -14,7 +14,7 @@ module.exports = (rest) => {
   // 检测必要参数
   const required = (keys, error) => (
     (req, res, next) => {
-      const missings = _.filter(keys, (key) => !_.has(req.params, key));
+      const missings = _.filter(keys, key => !_.has(req.params, key));
       if (missings.length === 0) return next();
       if (error) return next(error);
       return next(rest.errors.missingParameter(`Missing required params: ${missings}`));
@@ -22,7 +22,7 @@ module.exports = (rest) => {
   );
 
   // 将 params 的可以做一个简单的映射
-  const map = (dict) => (
+  const map = dict => (
     (req, res, next) => {
       _.each(dict, (v, k) => {
         req.params[v] = req.params[k];
@@ -54,7 +54,7 @@ module.exports = (rest) => {
         return true;
       },
     },
-    message: 'Keys is an String|Array.',
+    message: 'Keys is an array and item must be a string.',
   }];
 
   const mapSchemas = [{
@@ -88,7 +88,7 @@ module.exports = (rest) => {
         return true;
       },
     },
-    message: 'Keys is an String|Array.',
+    message: 'Keys is an array and item must be a string.',
   }, {
     name: 'error',
     type: Error,

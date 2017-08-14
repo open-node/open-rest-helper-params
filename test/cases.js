@@ -5,16 +5,17 @@ const helper = require('../')(rest);
 describe('open-rest-helper-params', () => {
   describe('omit', () => {
     it('keys type error', (done) => {
+      const msg = 'Keys is an array and item must be a string.';
       assert.throws(() => {
         helper.omit({});
-      }, (err) => err instanceof Error && err.message === 'Keys is an String|Array.');
+      }, err => err instanceof Error && err.message === msg);
       done();
     });
 
     it('keys item error', (done) => {
       assert.throws(() => {
         helper.omit([null, []]);
-      }, (err) => err instanceof Error && err.message === 'Every item in keys must be a string.');
+      }, err => err instanceof Error && err.message === 'Every item in keys must be a string.');
       done();
     });
 
@@ -66,23 +67,24 @@ describe('open-rest-helper-params', () => {
 
   describe('required', () => {
     it('keys type error', (done) => {
+      const msg = 'Keys is an array and item must be a string.';
       assert.throws(() => {
         helper.required({});
-      }, (err) => err instanceof Error && err.message === 'Keys is an String|Array.');
+      }, err => err instanceof Error && err.message === msg);
       done();
     });
 
     it('keys item error', (done) => {
       assert.throws(() => {
         helper.required([null, []]);
-      }, (err) => err instanceof Error && err.message === 'Every item in keys must be a string.');
+      }, err => err instanceof Error && err.message === 'Every item in keys must be a string.');
       done();
     });
 
     it('error type error', (done) => {
       assert.throws(() => {
         helper.required(['username', 'password'], {});
-      }, (err) => (
+      }, err => (
         err instanceof Error && err.message === 'The error is called next when params missed.'
       ));
       done();
@@ -170,7 +172,7 @@ describe('open-rest-helper-params', () => {
     it('dict type error, include non-string', (done) => {
       assert.throws(() => {
         helper.map({ key: ['hello world'] });
-      }, (err) => err instanceof Error && err.message === 'Map dict value must be a string.');
+      }, err => err instanceof Error && err.message === 'Map dict value must be a string.');
       done();
     });
 
@@ -201,14 +203,14 @@ describe('open-rest-helper-params', () => {
     it('keyPath type error', (done) => {
       assert.throws(() => {
         helper.assign(['hello world']);
-      }, (err) => err instanceof Error && err.message === 'Gets the value at path of object.');
+      }, err => err instanceof Error && err.message === 'Gets the value at path of object.');
       done();
     });
 
     it('obj type error', (done) => {
       assert.throws(() => {
         helper.assign('hooks.user.id', 'hello world');
-      }, (err) => err instanceof Error && err.message === 'Fixed value or path of req object');
+      }, err => err instanceof Error && err.message === 'Fixed value or path of req object');
       done();
     });
 
